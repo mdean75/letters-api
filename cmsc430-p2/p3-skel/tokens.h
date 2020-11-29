@@ -49,37 +49,37 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-      IDENTIFIER = 258,
-      INT_LITERAL = 259,
-      ADDOP = 260,
-      MULOP = 261,
-      RELOP = 262,
-      ANDOP = 263,
-      BEGIN_ = 264,
-      BOOLEAN = 265,
-      END = 266,
-      ENDREDUCE = 267,
-      FUNCTION = 268,
-      INTEGER = 269,
-      IS = 270,
-      REDUCE = 271,
-      RETURNS = 272,
-      ARROW = 273,
-      CASE = 274,
-      ELSE = 275,
-      ENDCASE = 276,
-      ENDIF = 277,
-      IF = 278,
-      OTHERS = 279,
-      REAL = 280,
-      THEN = 281,
-      WHEN = 282,
-      OROP = 283,
-      NOTOP = 284,
-      REMOP = 285,
-      EXPOP = 286,
-      REAL_LITERAL = 287,
-      BOOL_LITERAL = 288
+    IDENTIFIER = 258,
+    INT_LITERAL = 259,
+    ADDOP = 260,
+    MULOP = 261,
+    RELOP = 262,
+    ANDOP = 263,
+    BEGIN_ = 264,
+    BOOLEAN = 265,
+    END = 266,
+    ENDREDUCE = 267,
+    FUNCTION = 268,
+    INTEGER = 269,
+    IS = 270,
+    REDUCE = 271,
+    RETURNS = 272,
+    ARROW = 273,
+    CASE = 274,
+    ELSE = 275,
+    ENDCASE = 276,
+    ENDIF = 277,
+    IF = 278,
+    OTHERS = 279,
+    REAL = 280,
+    THEN = 281,
+    WHEN = 282,
+    OROP = 283,
+    NOTOP = 284,
+    REMOP = 285,
+    EXPOP = 286,
+    REAL_LITERAL = 287,
+    BOOL_LITERAL = 288
   };
 #endif
 
@@ -93,7 +93,7 @@ union YYSTYPE
 	Operators oper;
 	int value;
 
-#line 81 "parser.tab.h"
+#line 97 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

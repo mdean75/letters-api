@@ -41,6 +41,8 @@ int result;
 
 %token BEGIN_ BOOLEAN END ENDREDUCE FUNCTION INTEGER IS REDUCE RETURNS
 
+%token ARROW CASE ELSE ENDCASE ENDIF IF OTHERS REAL THEN WHEN OROP NOTOP REMOP EXPOP REAL_LITERAL BOOL_LITERAL
+
 %type <value> body statement_ statement reductions expression relation term
 	factor primary
 %type <oper> operator
@@ -51,7 +53,7 @@ function:
 	function_header optional_variable body {result = $3;} ;
 	
 function_header:	
-	FUNCTION IDENTIFIER RETURNS type ';' ;
+	FUNCTION IDENTIFIER RETURNS type ';' | error_ ;
 
 optional_variable:
 	variable |
@@ -103,6 +105,12 @@ primary:
 	'(' expression ')' {$$ = $2;} |
 	INT_LITERAL |
 	IDENTIFIER {if (!symbols.find($1, $$)) appendError(UNDECLARED, $1);} ;
+
+error_:
+    error_list | error_ error_list
+
+error_list:
+    error ';' ;
 
 %%
 
