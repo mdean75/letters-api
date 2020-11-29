@@ -1,0 +1,6 @@
+-- Two parameter declarations
+
+function main atest: boolean, btest: integer returns boolean;
+begin
+    atest and btest > 1;
+end;
