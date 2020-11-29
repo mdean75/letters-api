@@ -50,10 +50,20 @@ int result;
 %%
 
 function:	
-	function_header optional_variable body {result = $3;} ;
+	function_header var1ormore body {result = $3;} ;
 	
 function_header:	
-	FUNCTION IDENTIFIER RETURNS type ';' | error_ ;
+	FUNCTION IDENTIFIER parameters RETURNS type ';' | error_ ;
+
+var1ormore:
+    var1ormore variable |
+    ;
+
+parameters:
+    parameter | parameters ',' parameter | ;
+
+parameter:
+    IDENTIFIER ':' type
 
 optional_variable:
 	variable |
@@ -64,7 +74,8 @@ variable:
 
 type:
 	INTEGER |
-	BOOLEAN ;
+	BOOLEAN |
+	REAL;
 
 body:
 	BEGIN_ statement_ END ';' {$$ = $2;} ;
@@ -75,6 +86,7 @@ statement_:
 	
 statement:
 	expression |
+	statement_ |
 	REDUCE operator reductions ENDREDUCE {$$ = $3;} ;
 
 operator:
@@ -103,7 +115,9 @@ factor:
 
 primary:
 	'(' expression ')' {$$ = $2;} |
+
 	INT_LITERAL |
+	REAL_LITERAL |
 	IDENTIFIER {if (!symbols.find($1, $$)) appendError(UNDECLARED, $1);} ;
 
 error_:

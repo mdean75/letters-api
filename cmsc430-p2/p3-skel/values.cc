@@ -32,7 +32,7 @@ int evaluateRelational(int left, Operators operator_, int right)
 	return result;
 }
 
-int evaluateArithmetic(int left, Operators operator_, int right)
+double evaluateArithmetic(double left, Operators operator_, double right)
 {
 	int result;
 	switch (operator_)

@@ -26,7 +26,7 @@ int		{digit}+
 punc		[\(\),:;]
 
 real    [0-9]+\.[0-9]*(?:[eE]{1}(?:[\+-])?[0-9]+)?
-bool    [true|false]
+bool    [true | false]
 %%
 
 {ws}		{ ECHO; }
@@ -72,7 +72,7 @@ not     { ECHO; return(NOTOP); }
 rem     { ECHO; return(REMOP); }
 "**"    { ECHO; return(EXPOP); }
 
-{real}  { ECHO; return(REAL_LITERAL); }
+{real}		{ ECHO; yylval.value = atof(yytext); return(REAL_LITERAL); }
 {bool}  { ECHO; return(BOOL_LITERAL); }
 
 {id}		{ ECHO; yylval.iden = (CharPtr)malloc(yyleng + 1); 

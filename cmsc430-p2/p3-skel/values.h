@@ -8,5 +8,5 @@ enum Operators {LESS, ADD, MULTIPLY};
 
 int evaluateReduction(Operators operator_, int head, int tail);
 int evaluateRelational(int left, Operators operator_, int right);
-int evaluateArithmetic(int left, Operators operator_, int right);
+double evaluateArithmetic(double left, Operators operator_, double right);
 
