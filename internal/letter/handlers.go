@@ -57,6 +57,7 @@ func InsertLetter(c *Controller) http.HandlerFunc {
 		// decode the body to get the letter to insert
 		b, err := io.ReadAll(r.Body)
 		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
@@ -64,15 +65,24 @@ func InsertLetter(c *Controller) http.HandlerFunc {
 		err = json.Unmarshal(b, &l)
 		if err != nil {
 			fmt.Println(err)
+			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
 		id, err := c.Datastore.Insert(l)
 		if err != nil {
 			fmt.Println(err)
+			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		w.Write([]byte(id))
+		b, err = json.Marshal(map[string]interface{}{"id": id})
+		if err != nil {
+			fmt.Println(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(b)
 	}
 }
