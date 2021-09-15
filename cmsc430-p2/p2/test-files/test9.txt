@@ -1,6 +1,0 @@
--- Single parameter declaration
-
-function main an: integer returns integer;
-begin
-    an + 1;
-end;

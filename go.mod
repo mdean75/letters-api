@@ -1,3 +1,8 @@
-module github.com/mdean75/simple-log
+module letters-api
 
-go 1.13
+go 1.16
+
+require (
+	github.com/gorilla/mux v1.8.0
+	go.mongodb.org/mongo-driver v1.7.2
+)

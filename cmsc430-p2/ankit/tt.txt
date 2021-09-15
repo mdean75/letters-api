@@ -1,6 +1,0 @@
--- Function with arithmetic expression using real literals
-
-function main returns real;
-begin
-    1. +0.5;
-end;

@@ -1,8 +1,0 @@
--- Multiple integer variable initialization
-
-function main returns integer;
-    bob: integer is 5 + 1 - 4;
-    cat: integer is 2 + 3;
-begin
-    b + 1 - c;
-end;
