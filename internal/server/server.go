@@ -44,6 +44,6 @@ func Run() {
 }
 
 func httpServer(c *letter.Controller) *http.Server {
-	s := http.Server{Handler: router(c), Addr: ":3000"}
+	s := http.Server{Handler: routerWithCors(c), Addr: ":3000"}
 	return &s
 }
