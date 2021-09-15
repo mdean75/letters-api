@@ -18,4 +18,4 @@ steps:
       - '--platform'
       - 'managed'
 images:
-  - 'gcr.io/$PROJECT_ID/seating:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/letters-api:$COMMIT_SHA'
