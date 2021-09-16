@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -21,6 +22,7 @@ func Run() {
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
+			fmt.Println(err)
 			return
 		}
 	}()
@@ -44,6 +46,8 @@ func Run() {
 }
 
 func httpServer(c *letter.Controller) *http.Server {
-	s := http.Server{Handler: routerWithCors(c), Addr: ":3000"}
+	crs := routerWithCors(c)
+
+	s := http.Server{Handler: crs, Addr: ":3000"}
 	return &s
 }

@@ -11,6 +11,11 @@ import (
 
 func GetAllForUser(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
 		user := mux.Vars(r)["user"]
 		letters, err := c.Datastore.FetchAllForUser(user)
 		if err != nil {
@@ -30,6 +35,10 @@ func GetAllForUser(c *Controller) http.HandlerFunc {
 
 func GetLetterById(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
 		// get the letter id to retrieve
 		lid := mux.Vars(r)["id"]
 
@@ -54,6 +63,12 @@ func GetLetterById(c *Controller) http.HandlerFunc {
 
 func InsertLetter(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("wtf")
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
 		// decode the body to get the letter to insert
 		b, err := io.ReadAll(r.Body)
 		if err != nil {
@@ -83,6 +98,8 @@ func InsertLetter(c *Controller) http.HandlerFunc {
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
 		w.Write(b)
 	}
 }

@@ -11,10 +11,11 @@ type Loader interface {
 type Configuration struct {
 	MongoConfig
 	OktaConfig
+	DebugCors bool
 }
 
-func NewConfiguration(m MongoConfig, o OktaConfig) Configuration {
-	return Configuration{m, o}
+func NewConfiguration(m MongoConfig, o OktaConfig, debugCors bool) Configuration {
+	return Configuration{m, o, debugCors}
 }
 
 type MongoConfig struct {

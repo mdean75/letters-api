@@ -16,9 +16,18 @@ func router(c *letter.Controller) *mux.Router {
 }
 
 func routerWithCors(c *letter.Controller) http.Handler {
-	methods := []string{"*"}
-	origins := []string{"letters2lostlovedones.com", "localhost:4200"}
-	crs := cors.New(cors.Options{AllowedMethods: methods, AllowedOrigins: origins})
+	methods := []string{http.MethodPost, http.MethodGet, http.MethodOptions}
+	origins := []string{"http://localhost:4200", "https://letters2lostlovedones.com"}
+	headers := []string{"Content-Type"}
+
+	opts := cors.Options{
+		AllowedMethods:     methods,
+		AllowedOrigins:     origins,
+		AllowedHeaders:     headers,
+		OptionsPassthrough: true,
+		Debug:              true,
+	}
+	crs := cors.New(opts)
 
 	return crs.Handler(router(c))
 }
@@ -28,7 +37,7 @@ func addRoutes(r *mux.Router, c *letter.Controller) {
 		w.Write([]byte("ok"))
 	})
 
-	r.HandleFunc("/users/{user}/letter", letter.GetAllForUser(c)).Methods(http.MethodGet)
-	r.HandleFunc("/letter/{id}", letter.GetLetterById(c)).Methods(http.MethodGet)
-	r.HandleFunc("/letter", letter.InsertLetter(c)).Methods(http.MethodPost)
+	r.HandleFunc("/users/{user}/letter", letter.GetAllForUser(c)).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/letter/{id}", letter.GetLetterById(c)).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/letter", letter.InsertLetter(c)).Methods(http.MethodPost, http.MethodOptions)
 }
