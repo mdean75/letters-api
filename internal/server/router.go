@@ -38,6 +38,11 @@ func addRoutes(r *mux.Router, c *letter.Controller) {
 	})
 
 	r.HandleFunc("/users/{user}/letter", letter.GetAllForUser(c)).Methods(http.MethodGet, http.MethodOptions)
-	r.HandleFunc("/letter/{id}", letter.GetLetterById(c)).Methods(http.MethodGet, http.MethodOptions)
-	r.HandleFunc("/letter", letter.InsertLetter(c)).Methods(http.MethodPost, http.MethodOptions)
+	//r.HandleFunc("/letter/{id}/meta", letter.GetLetterById(c)).Methods(http.MethodGet, http.MethodOptions)
+	//r.HandleFunc("/letter", letter.InsertLetter(c)).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc("/letters/{id}/content", letter.GetLetterContentById(c)).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/letter/{id}/meta", letter.GetMetaForLetter(c)).Methods(http.MethodGet, http.MethodOptions)
+
+	r.HandleFunc("/users/{user}/metadata", letter.GetMetaForUser(c)).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/letter", letter.InsertLetterHTML(c)).Methods(http.MethodPost, http.MethodOptions)
 }

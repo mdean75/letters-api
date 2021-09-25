@@ -12,6 +12,11 @@ type Repository interface {
 	Insert(l Letter) (string, error)
 	FetchOne(id string) (Letter, error)
 	FetchAllForUser(user string) ([]Letter, error)
+	FetchMetaForUser(user string) ([]Letter, error)
+	FetchMetaForLetter(id string) (Letter, error)
+	FetchContent(id string) (interface{}, error)
+
+	InsertHTML(h Data) (string, error)
 }
 
 type Controller struct {
