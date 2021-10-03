@@ -20,12 +20,13 @@ type Repository interface {
 }
 
 type Controller struct {
-	Datastore Repository
-	DebugCors bool
+	Datastore         Repository
+	LoginRadiusApiKey string
+	DebugCors         bool
 }
 
-func NewController(r Repository, debugCors bool) *Controller {
-	return &Controller{Datastore: r, DebugCors: debugCors}
+func NewController(r Repository, apiKey string, debugCors bool) *Controller {
+	return &Controller{Datastore: r, LoginRadiusApiKey: apiKey, DebugCors: debugCors}
 }
 
 func CreateController() *Controller {
@@ -42,5 +43,5 @@ func CreateController() *Controller {
 
 	dao := NewDAO(mongoConn, "l3o", "savedLetter")
 
-	return NewController(dao, c.DebugCors)
+	return NewController(dao, c.LoginRadiusConfig.ApiKey(), c.DebugCors)
 }

@@ -45,4 +45,6 @@ func addRoutes(r *mux.Router, c *letter.Controller) {
 
 	r.HandleFunc("/users/{user}/metadata", letter.GetMetaForUser(c)).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/letter", letter.InsertLetterHTML(c)).Methods(http.MethodPost, http.MethodOptions)
+
+	r.HandleFunc("/token/profile", letter.GetLoginRadiusUserDetails(c)).Methods(http.MethodGet, http.MethodOptions)
 }

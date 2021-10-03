@@ -184,7 +184,6 @@ func InsertLetterHTML(c *Controller) http.HandlerFunc {
 
 func InsertLetter(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("wtf")
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -223,4 +222,89 @@ func InsertLetter(c *Controller) http.HandlerFunc {
 
 		w.Write(b)
 	}
+}
+
+func GetLoginRadiusUserDetails(c *Controller) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// get query param for current token
+		token := r.URL.Query().Get("token")
+		if token == "" {
+			// send error response
+			fmt.Println("no token received")
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("no token received"))
+			return
+		}
+
+		// make request to login radius to get the user details
+		user, err := requestLoginRadiusUserDetails(c, token)
+		if err != nil {
+			fmt.Println(err)
+			// respond with error
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+		}
+		fmt.Println(user)
+
+		var primaryEmail string
+		for _, address := range user.Email {
+			if address.Type == "Primary" {
+				primaryEmail = address.Value
+				break
+			}
+		}
+
+		response := map[string]interface{}{"firstname": user.Firstname, "lastname": user.Lastname, "email": primaryEmail}
+
+		b, err := json.Marshal(response)
+		if err != nil {
+			// now what
+			fmt.Println(err)
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}
+
+}
+
+type UserProfile struct {
+	Firstname string  `json:"firstname"`
+	Lastname  string  `json:"lastname"`
+	Email     []email `json:"email"`
+}
+
+type email struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+func requestLoginRadiusUserDetails(c *Controller, token string) (UserProfile, error) {
+	//req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, "https://api.loginradius.com/identity/v2/auth/account", nil)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	resp, err := http.Get(fmt.Sprintf("https://api.loginradius.com/identity/v2/auth/account?access_token=%s&apiKey=%s&fields=email,firstname,lastname", token, c.LoginRadiusApiKey))
+	if err != nil {
+		return UserProfile{}, err
+	}
+
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return UserProfile{}, err
+	}
+
+	var user UserProfile
+	err = json.Unmarshal(b, &user)
+	if err != nil {
+		return UserProfile{}, err
+	}
+
+	return user, nil
 }

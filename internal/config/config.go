@@ -11,11 +11,12 @@ type Loader interface {
 type Configuration struct {
 	MongoConfig
 	OktaConfig
+	LoginRadiusConfig
 	DebugCors bool
 }
 
-func NewConfiguration(m MongoConfig, o OktaConfig, debugCors bool) Configuration {
-	return Configuration{m, o, debugCors}
+func NewConfiguration(m MongoConfig, o OktaConfig, l LoginRadiusConfig, debugCors bool) Configuration {
+	return Configuration{m, o, l, debugCors}
 }
 
 type MongoConfig struct {
@@ -48,4 +49,20 @@ func (o *OktaConfig) APIToken() string {
 
 func (o *OktaConfig) SetAPIToken(token string) {
 	o.apiToken = token
+}
+
+type LoginRadiusConfig struct {
+	apiKey string
+}
+
+func NewLoginRadiusConfig(token string) LoginRadiusConfig {
+	return LoginRadiusConfig{apiKey: token}
+}
+
+func (l *LoginRadiusConfig) ApiKey() string {
+	return l.apiKey
+}
+
+func (l *LoginRadiusConfig) SetApiKey(apiKey string) {
+	l.apiKey = apiKey
 }
