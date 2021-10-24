@@ -3,6 +3,8 @@ package server
 import (
 	"net/http"
 
+	"letters-api/internal/letter"
+
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )

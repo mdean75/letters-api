@@ -2,7 +2,6 @@ package letter
 
 import (
 	"fmt"
-	"os"
 
 	"letters-api/internal/config"
 	"letters-api/internal/db"
@@ -23,25 +22,29 @@ type Controller struct {
 	Datastore         Repository
 	LoginRadiusApiKey string
 	DebugCors         bool
+	Done              chan struct{}
 }
 
-func NewController(r Repository, apiKey string, debugCors bool) *Controller {
-	return &Controller{Datastore: r, LoginRadiusApiKey: apiKey, DebugCors: debugCors}
+func NewController(r Repository, apiKey string, debugCors bool, ch chan struct{}) *Controller {
+	return &Controller{Datastore: r, LoginRadiusApiKey: apiKey, DebugCors: debugCors, Done: ch}
 }
 
-func CreateController() *Controller {
+func CreateController(ch chan struct{}) *Controller {
 	c := config.EnvVar{}.LoadConfig()
 	if c.DBConn() == "" {
 		fmt.Println("dbconn is not set")
-		os.Exit(100)
+		ch <- struct{}{}
+		return nil
 	}
 
 	mongoConn, err := db.NewMongoDatabase(c.DBConn())
 	if err != nil {
 		fmt.Println(err)
+		ch <- struct{}{}
+		return nil
 	}
 
 	dao := NewDAO(mongoConn, "l3o", "savedLetter")
 
-	return NewController(dao, c.LoginRadiusConfig.ApiKey(), c.DebugCors)
+	return NewController(dao, c.LoginRadiusConfig.ApiKey(), c.DebugCors, ch)
 }

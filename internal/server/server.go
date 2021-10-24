@@ -14,11 +14,14 @@ import (
 )
 
 func Run() {
-	c := letter.CreateController()
+
+	stop := make(chan os.Signal, 1)
+	kill := make(chan struct{}, 1)
+
+	c := letter.CreateController(kill)
 	srv := httpServer(c)
 
-	done := make(chan os.Signal, 1)
-	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+	signal.Notify(stop, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
@@ -28,7 +31,12 @@ func Run() {
 	}()
 	log.Print("Server Started")
 
-	<-done
+	select {
+	case <-stop:
+		fmt.Println("os stop signal received")
+	case <-kill:
+		fmt.Println("kill signal received")
+	}
 
 	log.Print("Server Stopped")
 
