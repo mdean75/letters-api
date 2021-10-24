@@ -14,6 +14,7 @@ func GetMetaForLetter(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 
@@ -41,6 +42,7 @@ func GetMetaForUser(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 
@@ -68,6 +70,7 @@ func GetAllForUser(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 
@@ -92,6 +95,7 @@ func GetLetterContentById(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 		// get the letter id to retrieve
@@ -114,6 +118,7 @@ func GetLetterById(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 		// get the letter id to retrieve
@@ -151,6 +156,7 @@ func InsertLetterHTML(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 
@@ -186,6 +192,7 @@ func InsertLetter(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 
@@ -228,6 +235,7 @@ func GetLoginRadiusUserDetails(c *Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 			return
 		}
 

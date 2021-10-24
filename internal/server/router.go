@@ -5,7 +5,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"letters-api/internal/letter"
 )
 
 func router(c *letter.Controller) *mux.Router {
@@ -17,7 +16,7 @@ func router(c *letter.Controller) *mux.Router {
 
 func routerWithCors(c *letter.Controller) http.Handler {
 	methods := []string{http.MethodPost, http.MethodGet, http.MethodOptions}
-	origins := []string{"http://localhost:4200", "https://letters2lostlovedones.com"}
+	origins := []string{"http://localhost:4200", "https://letters2lostlovedones.com", "http://127.0.0.1:4200"}
 	headers := []string{"Content-Type"}
 
 	opts := cors.Options{
