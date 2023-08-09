@@ -28,7 +28,7 @@ RUN go build -ldflags "\
     -X main.version=$VERSION" \
     -o main ./cmd/main.go;
 
-FROM alpine:latest
+FROM alpine:3.18.3
 
 COPY --from=builder /build/main .
 
